@@ -9,6 +9,8 @@
 
 4. [polymarket-info](https://github.com/PolyTrader/polymarket-info)
 
+5. [Polymarket-Trade-Monitor](https://github.com/agapekl/Polymarket-Trade-Monitor)
+
 
 ## 官方文档
 
