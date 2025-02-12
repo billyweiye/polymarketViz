@@ -11,7 +11,7 @@ CHAIN_ID = POLYGON
 client = ClobClient(HOST, key=API_KEY, chain_id=CHAIN_ID, signature_type=2)
 
 
-def get_latest_market_data():
+def get_latest_event():
     # Define parameters for the API request
     params = {
         "limit": 1,
