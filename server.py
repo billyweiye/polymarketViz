@@ -1,3 +1,5 @@
+import requests
+
 from py_clob_client.constants import POLYGON
 from py_clob_client.client import ClobClient
 
@@ -9,26 +11,30 @@ CHAIN_ID = POLYGON
 client = ClobClient(HOST, key=API_KEY, chain_id=CHAIN_ID, signature_type=2)
 
 
+def get_latest_market_data():
+    # Define parameters for the API request
+    params = {
+        "limit": 1,
+        "active": True,
+        "archived": False,
+        "order": "creationDate",
+        "ascending": False
+    }
 
-def get_all_markets(client):
-    all_markets = []
-    next_cursor = ''
+    try:
+        # Make the API request to retrieve market data
+        response = requests.get("https://gamma-api.polymarket.com/events", params=params)
+        response.raise_for_status()  # Raise an error for bad responses
+    except requests.exceptions.RequestException as e:
+        # Handle any HTTP errors or request issues
+        print(f"An error occurred: {e}")
+        return None
 
-    all_markets, next_cursor = [], ''
-    while True:
-        # 调用API获取市场数据
-        # This line calls the API to retrieve market data
-        response = client.get_markets(next_cursor=next_cursor)
+    # Return the JSON content of the response
+    return response.json()
+    
+def get_all_trades(client):
+    # 调用API获取交易数据
+    response = client.get_trades()
 
-        # 将当前页的市场数据添加到所有市场列表中
-        all_markets.extend(response['data'])
-
-
-        # 检查是否有下一页
-        next_cursor = response.get('next_cursor')
-        print(next_cursor)
-        if not next_cursor:
-            break
-
-    return all_markets
     
